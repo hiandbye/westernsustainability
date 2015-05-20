@@ -1,0 +1,21 @@
+//
+//  OOSProgramsViewController.h
+//  Sustainability
+//
+//  Created by Ryan Hachtel on 2/2/15.
+//  Copyright (c) 2015 Office Of Sustainability. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface OOSProgramsViewController : UIViewController
+
+@property (strong, nonatomic)UIScrollView *scrollView;
+
+@property(strong, nonatomic)NSString *header;
+@property(strong, nonatomic)NSString *detailImageString;
+@property(strong, nonatomic)NSString *description1;
+@property(strong, nonatomic)NSString *description2;
+
+
+@end
