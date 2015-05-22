@@ -178,7 +178,7 @@ NOTES:      Inital setup of the viewController as well as NSURL Session to retri
         TOD.userInteractionEnabled = NO;
         TOD.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
         TOD.textColor = [UIColor whiteColor];
-        TOD.font = [UIFont fontWithName:@"ManifoldCF-BOLD" size:18];
+        TOD.font = [UIFont fontWithName:@"ManifoldCF-Bold" size:18];
         TOD.text = self.TOD;
         TOD.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
         TOD.textAlignment = YES;

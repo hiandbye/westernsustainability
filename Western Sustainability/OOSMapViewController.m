@@ -9,15 +9,11 @@
 #import "OOSMapViewController.h"
 #import "OOSMapObjects.h"
 #import "OOSAnnotationDetailViewController.h"
-//#import "TSPopoverController.h"
-//#import "TSActionSheet.h"
 #import "FlatUIKit.h"
-//#import "MPAnimation.h"
+#import "DoActionSheet.h"
+
 
 @interface OOSMapViewController ()
-{
-    UIPopoverController *_popoverController;
-}
 
 @property (strong, nonatomic)NSURLSession *session;
 @property (strong, nonatomic)NSURLSession *sessionImage;
@@ -124,8 +120,8 @@
     self.locations = @[@"Refill Stations", @"SOC Buildings", @"GEF Projects", @"Bike Parking", @"Compost Bins"];
     
     //Creating backbutton
-    UIImage *backImage = [UIImage imageNamed:@"back_button.png"];
-    UIButton *backButton = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 60.0f, 20.0f)];
+    UIImage *backImage = [UIImage imageNamed:@"back_button_solid.png"];
+    UIButton *backButton = [[UIButton alloc] initWithFrame: CGRectMake(0, self.view.frame.size.height-20, 60.0f, 20.0f)];
     [backButton setBackgroundImage:backImage  forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(popBack) forControlEvents:UIControlEventTouchUpInside];
     [backButton setBackgroundColor:[UIColor colorWithRed:250 green:250 blue:250 alpha:1]];
@@ -134,8 +130,8 @@
     [self.view addSubview:backButton];
     
     //Creating Search Button
-    UIImage *searchImage = [UIImage imageNamed:@"searchBold.png"];
-    UIButton *searchButton = [[UIButton alloc] initWithFrame:CGRectMake(145, 20, 30.0f, 20.0f)];
+    UIImage *searchImage = [UIImage imageNamed:@"filter_icon.png"];
+    UIButton *searchButton = [[UIButton alloc] initWithFrame:CGRectMake(280, self.view.frame.size.height-40, 40.0f, 40.0f)];
     [searchButton setBackgroundImage:searchImage forState:UIControlStateNormal];
     [searchButton addTarget:self action:@selector(showActionSheet:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -211,8 +207,96 @@
  FUNCTION:      [showActionSheet:];
  
  PARAMETERS:    sender  -   TYPE: id, what object sent the call
+ 
+ RETURN:        void
+ NOTES:         Creates the UIActionSheet view to select what type of icon to display
  */
+-(void)showActionSheet:(id)sender
+{
+    DoActionSheet *dActionSheet = [[DoActionSheet alloc] init];
+    dActionSheet.nAnimationType = DoASTransitionStylePop;
+    
+    dActionSheet.dButtonRound = 2;
+    
+    dActionSheet.doBackColor = DO_RGBA(255, 255, 255, 0);
+    dActionSheet.doButtonColor = DO_RGB(113, 208, 243);
+    dActionSheet.doCancelColor = DO_RGB(73, 168, 203);
+    dActionSheet.doDestructiveColor = DO_RGB(235, 15, 93);
+    
+    dActionSheet.doTitleTextColor = DO_RGB(209, 247, 247);
+    dActionSheet.doButtonTextColor = DO_RGB(255, 255, 255);
+    dActionSheet.doCancelTextColor = DO_RGB(255, 255, 255);
+    dActionSheet.doDestructiveTextColor = DO_RGB(255, 255, 255);
+    
+    dActionSheet.doTitleFont = [UIFont fontWithName:@"ManifoldCF-Bold" size:14];
+    dActionSheet.doButtonFont = [UIFont fontWithName:@"ManifoldCF-Bold" size:14];
+    dActionSheet.doCancelFont = [UIFont fontWithName:@"ManifoldCF-Bold" size:14];
+    
+    dActionSheet.doTitleInset = UIEdgeInsetsMake(10, 20, 10, 20);
+    dActionSheet.doButtonInset = UIEdgeInsetsMake(5, 20, 5, 20);
+    
+    [dActionSheet showC:@"Pick A Sustainability Interest"
+                 cancel:@"Cancel"
+                buttons:@[@"Refill Stations", @"SOC Buildings", @"GEF Projects", @"Bike Parking", @"Compost Bins"]
+                 result:^(int nResult) {
+                     
+                     NSLog(@"---------------> result : %d", nResult);
+                     if (nResult == 0) {
+                         
+                         [self fetchMapAnnotations:@"Refill Stations"];
+                         
+                     } else if (nResult == 1) {
+                         
+                         [self fetchMapAnnotations:@"SOC Buildings"];
+                         
+                     } else if (nResult == 2) {
+                         
+                         [self fetchMapAnnotations:@"GEF Projects"];
+                         
+                     } else if (nResult == 3) {
+                         
+                         [self fetchMapAnnotations:@"Bike Parking"];
+                         
+                     } else if (nResult == 4) {
+                         
+                         [self fetchMapAnnotations:@"Compost Bins"];
+                     }
+                     
+                 }];
+    /*
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select a group you would like to display!"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"Refill Stations", @"SOC Buildings", @"GEF Projects", @"Bike Parking", @"Compost Bins", nil];
+    
+    [actionSheet showInView:self.view];
+     */
+}
 
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        
+        [self fetchMapAnnotations:@"Refill Stations"];
+        
+    } else if (buttonIndex == 1) {
+        
+        [self fetchMapAnnotations:@"SOC Buildings"];
+        
+    } else if (buttonIndex == 2) {
+        
+        [self fetchMapAnnotations:@"GEF Projects"];
+        
+    } else if (buttonIndex == 3) {
+        
+        [self fetchMapAnnotations:@"Bike Parking"];
+        
+    } else if (buttonIndex == 4) {
+        
+        [self fetchMapAnnotations:@"Compost Bins"];
+    }
+}
 
 
 

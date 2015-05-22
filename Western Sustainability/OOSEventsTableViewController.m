@@ -122,7 +122,7 @@
     
     [header addSubview:titleLower];
     
-    UIImage *backImage = [UIImage imageNamed:@"back_button.png"];
+    UIImage *backImage = [UIImage imageNamed:@"back_button_solid.png"];
     UIButton *backButton = [[UIButton alloc] initWithFrame: CGRectMake(10, 10, 45.0f, 15.0f)];
     [backButton setBackgroundImage:backImage  forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(popBack) forControlEvents:UIControlEventTouchUpInside];
